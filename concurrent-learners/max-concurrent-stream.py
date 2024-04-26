@@ -51,20 +51,28 @@ sorted times:  [(0, 1, 'User_001'), (400, 1, 'User_004'), (500, 1, 'User_002'), 
 """
 
 def max_concurrent_streams(streams):
-    times = []
-    for stream in streams:
-        user, start, end = stream
-        times.append((start, 1, user))
-        times.append((end, -1, user))
-        print("original times: ",times)
-    times.sort()
-    print("sorted times: ",times)
-    counter = 0
-    max_counter = 0
-    for time in times:
-        counter += time[1]
-        max_counter = max(max_counter, counter)
-    return max_counter
+    events = []
+    for stream in streams: 
+        user_id, start_time, end_time = stream
+        # Transform each stream interval into two two events
+        events.append((start_time, "start", user_id))
+        events.append((end_time, "end", user_id))
+        # print(events)
+
+        # Sort events, handling ties by placing "end" before "start"
+        events.sort(key=lambda x: (x[0], x[1]=="start"))
+        print("sorted events: ", events)
+
+        max_concurrent = 0
+        current_concurrent = 0
+        for event in events:
+            if event[1] == "start": 
+                current_concurrent += 1 
+            else: 
+                current_concurrent -= 1
+            max_concurrent = max(max_concurrent, current_concurrent)
+        
+    return max_concurrent
 
 streams = [
     ["User_001", 0, 1000],
