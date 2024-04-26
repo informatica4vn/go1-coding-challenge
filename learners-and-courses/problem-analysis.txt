@@ -1,0 +1,10 @@
+
+
+find unique course that is learned just by 1 Learners
+return all these unique courses 
+---
+i am thinking of the set when it relates to find the unique set of data
+
+Symmetric Differences
+The symmetric_difference() method will keep only the elements that are NOT present in both sets.
+
