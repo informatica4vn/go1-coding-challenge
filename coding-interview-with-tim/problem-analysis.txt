@@ -1,0 +1,44 @@
+
+
+
+Example input:
+```json
+[
+    ["User_001", 0, 1000],
+    ["User_002", 500, 2000],
+    ["User_003", 2500, 3000],
+    ["User_004", 400, 1400]
+]
+```
+
+Example output:
+```json
+"The maximum number of concurrent streams is 3."
+```
+
+
+---
+1. input
+
+user1: 0 -------------------- 1000
+
+user2: x ------500 ---------------------------2000
+
+user3: x--------x ------------------------------x------2500-------3000
+
+user4: x----400 -x ---------------------1400
+
+2. output
+max-count-concurrent = 3
+
+
+user1: (user2, 500), (user4, 400)
+user2: (user1, 0), (user4,400), (user2,500) 
+
+user3: 1 - out of range 
+
+user4: (use1,0), (user2,500), (user)
+
+3. algorithm design 
+
+def max_concunrrent_stream(streams): 
